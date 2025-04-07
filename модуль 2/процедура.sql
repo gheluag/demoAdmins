@@ -3,12 +3,12 @@ use HotelDemo;
 
 delimiter $$
 
-create procedure ADR(
+create procedure ADR( -- входные параметры: начальная дата и конечная дата
 in startDate date,
 in endDate date )
 begin
 
-declare totalPrice decimal(10,2);
+declare totalPrice decimal(10,2); -- переменные общей стоимости и количества ночей
 declare totalNights int;
 
 select sum(price)

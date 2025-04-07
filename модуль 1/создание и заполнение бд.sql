@@ -13,7 +13,7 @@ SELECT user, authentication_string
 FROM mysql.user
 WHERE user IN ('user1', 'user2', 'user3', 'user4', 'user5', 'user6', 'user7', 'user8', 'user9', 'user10');
 
-select * from Users; -- как расхэшировать пароли я так и не поняла (mysql автоматом хэщирует их при создании пользователя)
+select * from Users; -- как расхэшировать пароли я так и не поняла (mysql автоматом хэширует их при создании пользователя)
 
 -- резервные копии (выполняются в cmd)
 
