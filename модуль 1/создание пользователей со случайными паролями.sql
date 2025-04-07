@@ -16,7 +16,7 @@ BEGIN
 
     SET chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; -- инициализируем строку
 
-    WHILE i <= 10 DO -- цикл для генерации паролей (10 паролей)
+    WHILE i <= 10 DO -- цикл для генерации пользователей (10 пользователей)
         SET passw = ''; -- очищаем пароль каждый раз
         SET j = 1; -- начало счетчика
 
@@ -31,7 +31,8 @@ BEGIN
 			-- 1 - сколько символом извлекаем
             
             SET j = j + 1; -- увеличиваем шаг
-        END WHILE;
+            
+        END WHILE; -- конец цикла для паролей
 
         SET @command = CONCAT('CREATE USER ''user', i, '''@''localhost'' IDENTIFIED BY ''', passw, ''';'); -- собираем команду
         
@@ -48,7 +49,9 @@ BEGIN
         DEALLOCATE PREPARE stmt; -- освобождение ресурсов
 
         SET i = i + 1; -- увеличиваем шаг
-    END WHILE; -- конец цикла
+        
+    END WHILE; -- конец цикла для пользователей
+    
 END$$ -- конец процедуры
 
 DELIMITER ; -- возращаем изначальный разделитель

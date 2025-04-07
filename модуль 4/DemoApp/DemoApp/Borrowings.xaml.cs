@@ -53,6 +53,8 @@ public partial class Borrowings : Window
             DateOnly selectedStart_date = DateOnly.FromDateTime(startDate.SelectedDate.Value);
             DateOnly selectedEnd_date = DateOnly.FromDateTime(endPeriod.SelectedDate.Value);
 
+            if (selectedEnd_date < selectedStart_date) return;
+
             borrowingsColl.Clear();
 
             var borrowlst = db.FiltredBorrowings(selectedStart_date, selectedEnd_date);

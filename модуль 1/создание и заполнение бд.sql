@@ -13,15 +13,21 @@ SELECT user, authentication_string
 FROM mysql.user
 WHERE user IN ('user1', 'user2', 'user3', 'user4', 'user5', 'user6', 'user7', 'user8', 'user9', 'user10');
 
-select * from Users; -- как расхэшировать пароли я так и не поняла (mysql автоматом хэширует их при создании пользователя)
+select * from Users; -- как расшифровать пароли я так и не поняла (mysql автоматом хэширует их при создании пользователя)
 
 -- резервные копии (выполняются в cmd)
 
--- mysqldump -uroot -p1234 BD > путь..BD_backup.sql
+-- mysqldump -uroot -p BD > "путь..BD_backup.sql"
+
+-- если оставить -p, то следующей строчкой нужно будет ввести пароль
+
+-- если указать -pпароль, то выйдет предупреждение, что не стоит пароль в открытом виде держать
 
 ## -u это пользователь
 ## -p это пароль
 
 -- восстановление (тоже cmd)
 
--- mysql -uroot -p1234 BD < путь...BD_backup.sql
+-- mysql -uroot -p BD < "путь...BD_backup.sql"
+
+-- та же самая история с -p

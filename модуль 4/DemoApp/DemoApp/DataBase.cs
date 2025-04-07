@@ -10,9 +10,11 @@ namespace DemoApp
 {
     public class DataBase
     {
-        MySqlConnection connection = new MySqlConnection("server=localhost; user=root;password=1234;port=3306; database=HotelDemo");
+        // необходимо установить пакет mysql.data
 
-        public List<Borrowing> GetBorrowings()
+        MySqlConnection connection = new MySqlConnection("server=localhost; user=root;password=1234;port=3306; database=HotelDemo"); // строка подключения к бд
+
+        public List<Borrowing> GetBorrowings() 
         {
             List<Borrowing> borrowlst = new List<Borrowing>(); 
 
