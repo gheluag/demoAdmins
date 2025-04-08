@@ -1,35 +1,28 @@
--- триггер у меня почему-то перестал срабатывать, но он работал правда, правда
-
 use HotelDemo; -- используем бд для создания триггера
 
-delimiter $$ -- устанавливаем разделитель
 
-create trigger CheckRooms -- создаем триггер
-before insert on borrowing -- перед заполнением таблицы бронирования
-for each row -- для каждой строки
+delimiter $$
 
-begin -- открываем тело триггера
+create trigger CheckRoomsAvalibility
+before insert on borrowing
+for each row
 
-declare roomCount int; -- объявляем переменную для количества комнат
+begin
 
-select count(*)  -- делаем выборку количества комнат
-into roomCount -- присваиваем значение переменной
-from borrowing
-where roomId = new.roomId -- new.поле используется при вставке или обновлении
--- указываем условие, при котором триггер будет выполняться
-and departureDate is not null -- дата выезда не должна быть пустой
-and not ( -- и новые даты не должны:
-new.departureDate <= entryDate or -- новая дата выезда не должна быть меньше уже даты в уже существующей записи
-new.entryDate >= departureDate  -- новая дата въезда не должна быть больше уже существующей записи 
-);
+declare room_status varchar(50);
 
-if roomCount > 0 then -- если количество таких комнат больше 0, то
-signal sqlstate '45000' -- выводим ошибку
-set message_text = 'Номер уже забронирован!'; -- и сообщение для ошибки
-end if; -- конец условия
-end $$ -- конец триггера
+select statusName into room_status
+from rooms
+join roomStatus on statusId = idStatus
+where rooms.numRoom = new.roomId;
 
-delimiter ; -- возвращаем разделитель
+if room_status != 'Чистый' then
+ SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Номер недоступен для бронирования';
+END IF;
+
+end$$
+
+delimiter ;
 
 INSERT INTO borrowing (roomerId, roomId, categoryId, entryDate, departureDate) VALUES
-( 5, 101, 1, '2025-02-14', '2025-03-02'); -- проверка
+(1, 101, 1, '2025-02-14', '2025-03-02');
